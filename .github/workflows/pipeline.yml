@@ -57,10 +57,12 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Docker e Docker Compose
+      - name: Habilitar Docker no GitHub Actions
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io docker-compose
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          docker --version
+          docker-compose --version
 
       - name: Verificar versão do Docker Compose
         run: docker-compose --version
