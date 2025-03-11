@@ -1,0 +1,61 @@
+name: Pipeline DevSecOps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Instalar dependências do frontend
+        run: cd frontend && npm install
+
+      - name: Build do frontend
+        run: cd frontend && npm run build
+
+      - name: Instalar dependências do backend
+        run: cd backend && npm install
+
+      - name: Build do backend
+        run: cd backend && npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Instalar dependências do frontend
+        run: cd frontend && npm install
+
+      - name: Executar testes do frontend
+        run: cd frontend && npm test -- --watchAll=false
+
+      - name: Executar testes do backend
+        run: cd backend && npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Deploy com Docker Compose
+        run: docker-compose up -d
