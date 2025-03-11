@@ -13,6 +13,18 @@
   }
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #282c34;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -36,3 +48,4 @@
     transform: rotate(360deg);
   }
 }
+
