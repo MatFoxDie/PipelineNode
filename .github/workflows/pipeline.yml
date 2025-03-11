@@ -57,5 +57,13 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
+      - name: Instalar Docker e Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io docker-compose
+
+      - name: Verificar versão do Docker Compose
+        run: docker-compose --version
+
       - name: Deploy com Docker Compose
-        run: docker-compose up -d
+        run: docker-compose up -d --build
